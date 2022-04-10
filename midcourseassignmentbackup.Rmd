@@ -1,0 +1,110 @@
+---
+title: "Mid-course Assignment"
+author: "Elizabeth Tullo"
+date: '2022-04-10'
+---
+
+Here I am loading in all packages I will be using for this assignment.
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+```
+
+
+## Part 1: Reading in a data frame
+
+Here I read in my two comma-separated data frames that I will be working with. Both are already in long format (aka tidy) format based on cactus type so no manipulation is needed there.
+
+```{r}
+cactus_xylem_data <- read.csv("~/datavisualization/working with ivanna data/cactus_xylem_data.csv")
+cross_section_data <- read.csv("~/datavisualization/working with ivanna data/cross_section_data.csv")
+```
+
+
+
+
+## Part 2: Generate Summary Statistics
+
+Here I generate summaries of the three different data frames. First I generate a summary for cactus_xylem_data, then cross_section_data.
+
+```{r}
+summary(cactus_xylem_data)
+summary(cross_section_data)
+```
+
+
+
+
+
+
+## Part 3: Manipulate the Data
+
+### Manipulation 1: Adding Columns
+
+Here I calculate the vessel_radius for the vessels in Cactus_xylem_data based on the column "Vessel_perimeter".
+```{r}
+vessel_radius <- (cactus_xylem_data$Vessel_perimeter) / (2 * pi)
+```
+
+
+Here I add the Vessel_radius as a column to the Cactus_xylem_data dataset.
+```{r}
+cactus_xylem_data$vessel_radius <- vessel_radius
+```
+
+
+Here I calculate the summary statistics for this new column.
+```{r}
+summary(cactus_xylem_data$vessel_radius)
+```
+
+
+
+**I then repeat the above steps to calculate the cross_section_radius for the Cross_section_data**
+
+Here I calculate the Cross_section_radius for the cross_sections in cross_section_data based on the column "Cross_section_perimeter".
+```{r}
+cross_section_radius <- (cross_section_data$Cross_section_perimeter) / (2 * pi)
+```
+
+
+Here I add the cross_section_radius as a column to the Cross_section_data dataset.
+```{r}
+cross_section_data$cross_section_radius <- cross_section_radius
+```
+
+
+Here I calculate the summary statistics for this new column.
+```{r}
+summary(cross_section_data$cross_section_radius)
+```
+
+
+
+
+### Manipulation 2: Merging the two data sets
+
+Here I full-join the two data frames cactus_xylem_data and cross_section_data into cactus_xylem_and_cross_section based on "Cactus" type and "Height_from_apex".
+
+```{r}
+cactus_xylem_and_cross_section <- full_join(cactus_xylem_data, cross_section_data, by = c("Cactus", "Height_from_apex"))
+```
+
+
+Here I calculate the summary statistics for the new merged data set cactus_xylem_and_cross_section.
+```{r}
+summary(cactus_xylem_and_cross_section)
+```
+
+
+## Part 4: Generate ggplots
+
+
+### Geom 1: Histogram
+
+
+### Geom 2: Scatter Plot
+
+
+### Geom 3: Jitter
